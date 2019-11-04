@@ -1,0 +1,7 @@
+---
+# tasks file for autho_key
+ - name: Set authorized key
+   authorized_key:
+     user: root
+     state: present
+     key: "{{ lookup('file','{{ role_path }}/files/id_rsa.pub') }}"

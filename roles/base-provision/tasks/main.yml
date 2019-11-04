@@ -1,0 +1,31 @@
+---
+# tasks file for base-provision
+
+
+- name: update cache
+  apt:
+    update_cache: yes
+
+- name: update all packages to the latest version
+  apt:
+    upgrade: dist
+
+
+#- name: install packages
+#  apt: name="{{ item }}" state=latest update_cache=yes cache_valid_time=3600
+#  loop:
+#    - wget
+#    - nano
+#    - mc
+#    - iperf3
+
+
+- name: take info about intf
+  shell: "uptime"    #"ip link show | cut -f 2 -d ' ' | grep -v '@' | sed -re 's/://g' | egrep '^(enp|eth|eno|ens)'"
+  register: phys_interfaces
+
+
+- name: see what in inside
+  debug: var=phys_interfaces	
+
+

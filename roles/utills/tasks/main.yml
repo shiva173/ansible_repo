@@ -1,0 +1,27 @@
+---
+# tasks file for utills
+
+
+- name: Getting info about system
+  shell: "uname -a && uptime"
+  register: result
+
+
+- name: install htop
+  apt: name=htop state=latest update_cache=yes
+
+
+- name: Install packages list
+  apt: name="{{ item }}" state=latest update_cache=yes
+  loop:
+    - wget
+    - tree
+    - traceroute
+    - nload
+    - lsof
+    - uptimed
+- debug: msg="{{ result.stdout_lines }}"
+
+# take information from variable
+
+#- debug: var=result 

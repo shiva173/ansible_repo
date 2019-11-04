@@ -1,0 +1,10 @@
+---
+# tasks file for adduser
+- name: Add user
+  user:
+    name: petr
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    password: "{{ userpass | password_hash('sha512') }}"
+  become: yes

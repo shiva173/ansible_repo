@@ -1,0 +1,7 @@
+---
+- name: test connection
+  hosts: servers
+  roles:
+    - apache2 
+  become: yes
+

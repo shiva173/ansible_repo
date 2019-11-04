@@ -1,0 +1,11 @@
+---
+  
+- name: Install utills and take information about system
+  hosts: servers
+  roles:
+    - utills
+  become: yes
+
+
+
+
