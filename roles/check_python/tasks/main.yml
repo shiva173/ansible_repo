@@ -1,0 +1,25 @@
+
+---
+# tasks file for python
+
+- name: copy Google.deb
+  copy: src=files/google-chrome-stable_current_amd64.deb dest=/home/ubuntu/google-chrome-stable_current_amd64.deb
+
+
+- name: install Google
+  apt: deb=/home/ubuntu/google-chrome-stable_current_amd64.deb
+
+- name: Add user
+  user:
+    name: user
+    shell: /bin/bash
+    append: yes
+    password: "{{ userpass | password_hash('sha512') }}"
+#  register: result
+
+- name: change keylayout
+  copy: src=files/keyboard dest=/etc/default/keyboard
+  when: ansible_distribution == 'Ubuntu'
+
+#- name: get information about task
+#  debug: msg="{{ result }}"
