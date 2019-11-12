@@ -1,25 +1,25 @@
 ---
 
-- hosts: my_host
+- hosts: servers
   vars:
-    src_file: /root/ansible/files/google-chrome-stable_current_amd64.deb
-    dest_file: /home/user/Загрузки/google-chrome-stable_current_amd64.deb
+    src_file: /home/vadim/Downloads/google-chrome-stable_current_amd64.deb
+    dest_file: /home/vadim/Downloads/google-chrome-stable_current_amd64.deb
   gather_facts: no
   tasks:
   - name: install python 2
     raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
 
-  #- name: copy Google.deb
-    #copy: src={{ src_file }} dest={{ dest_file }} remote_src=yes
+  - name: copy Google.deb
+    copy: src={{ src_file }} dest={{ dest_file }}
 
   - name: install Google
-    args:
-      chdir: /home/user/Загрузки/
-    apt: deb=/root/ansible/files/google-chrome-stable_current_amd64.deb
+    #args:
+    #  chdir: /home/vadim/Downloads/
+    apt: deb=/home/vadim/Downloads/google-chrome-stable_current_amd64.deb
+    register: result
 
   - name: Check result
-    register: result
-    debug: var=result
+    debug: msg="{{ result }}"
   become: yes
-  become_method: su
+  #become_method: su
 
