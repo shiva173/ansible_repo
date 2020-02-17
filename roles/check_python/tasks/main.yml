@@ -1,18 +1,17 @@
-
 ---
 # tasks file for python
 
 - name: copy Google.deb
-  copy: src=files/google-chrome-stable_current_amd64.deb dest=/home/ubuntu/google-chrome-stable_current_amd64.deb
-
+  copy: src=files/google-chrome-stable_current_amd64.deb dest=/home/google-chrome-stable_current_amd64.deb
 
 - name: install Google
-  apt: deb=/home/ubuntu/google-chrome-stable_current_amd64.deb
+  apt: deb=/home/google-chrome-stable_current_amd64.deb
 
 - name: Add user
   user:
     name: user
     shell: /bin/bash
+    group: sudo
     append: yes
     password: "{{ userpass | password_hash('sha512') }}"
 #  register: result
@@ -20,6 +19,37 @@
 - name: change keylayout
   copy: src=files/keyboard dest=/etc/default/keyboard
   when: ansible_distribution == 'Ubuntu'
+
+#- name: install dev_env
+#  apt:
+#     pkg:
+#     #- php-xdebug
+#     - apache2
+#     - mc
+
+- apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+
+- name: install packages
+  apt: name="{{ item }}" state=latest update_cache=yes
+  loop:
+    - apache2
+    - tree
+    - traceroute
+    - nload
+    - lsof
+    - mysql-server
+    - uptimed
+    - php-xdebug
+    - php7.2-cli
+    - php7.2-fpm
+    - php7.2-curl
+    - php7.2-gd
+    - php7.2-mysql
+    - php7.2-mbstring
+    - zip
+    - unzip
 
 #- name: get information about task
 #  debug: msg="{{ result }}"
