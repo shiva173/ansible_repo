@@ -1,7 +1,7 @@
 ---
   
 - name: Install utills and take information about system
-  hosts: servers
+  hosts: myhost
   roles:
     - utills
   become: yes
