@@ -1,13 +1,14 @@
 ---
-server_name: "test" # тут ваш домен
-nginx_remove_default_vhost: true 
+server_name: "testlocal" # тут ваш домен 
 mysql_db: "wordpress" 
 mysql_user: "wordpress"
 mysql_password: "WordpreSS0!"
 
 nginx_vhosts:
   - listen: "80"
-    server_name: "{{ server_name }}"
+    server_name: "{{ server_name }} www.{{ server_name }}"
+    # return: "301 https://{{ server_name }}$request_uri"
+    # filename: "{{ server_name }}.80.conf"
     root: "/var/www/{{ server_name}}/wordpress"
     index: "index.php index.html index.htm"
     error_page: "500 502 503 504  /50x.html"
@@ -19,8 +20,7 @@ nginx_vhosts:
     extra_parameters: |
       location ~ \.php$ {
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
-          fastcgi_pass unix:/var/run/php/7.2php-fpm.sock;
-          #fastcgi_pass 127.0.0.1:9000;
+          fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
           fastcgi_index index.php;
           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
           include fastcgi_params;
