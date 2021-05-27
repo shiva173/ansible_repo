@@ -1,8 +1,10 @@
 ---
-- hosts: myhost 
-  vars:
-    paths_to_vars_files:
-      - vars/wordpress.yml 
+- hosts: myhost
+  vars_files:
+    - ../vars/wordpress.yaml 
+  #vars:
+  #  paths_to_vars_files:
+  #    - vars/wordpress.yml 
   roles:
     - geerlingguy.nginx 
     - geerlingguy.php
