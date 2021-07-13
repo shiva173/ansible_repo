@@ -1,0 +1,6 @@
+---
+
+- hosts: all
+  roles:
+    - myenv
+  become: yes
