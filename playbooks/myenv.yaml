@@ -1,6 +1,9 @@
 ---
 
 - hosts: all
+  vars:
+    src_file: /home/vadim/Downloads/google-chrome-stable_current_amd64.deb
+    dest_file: /home/vadim/Downloads/google-chrome-stable_current_amd64.deb
   roles:
     - myenv
   become: yes
