@@ -2,9 +2,17 @@
 # tasks file for adduser
 - name: Add user
   user:
-    name: petr
+  #become: yes
+    name: artem
     shell: /bin/bash
-    groups: sudo
+    groups: 
+      - sudo
+      - docker
     append: yes
     password: "{{ userpass | password_hash('sha512') }}"
-  become: yes
+
+- name: clone repo in home
+  ansible.builtin.git:
+    repo: https://github.com/shiva173/helpfull_bash.git
+    dest: /home/artem/git/
+

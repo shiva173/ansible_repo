@@ -1,6 +1,6 @@
 ---
 - name: test connection
-  hosts: servers
+  hosts: myhost
   roles:
     - apache2 
   become: yes

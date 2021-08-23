@@ -3,6 +3,6 @@
 serversfile=servers
 for var in $(cat $serversfile)
 do
-ssh-copy-id -f $var
+ssh-copy-id vadim@$var
 done
 #

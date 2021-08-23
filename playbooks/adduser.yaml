@@ -1,14 +1,21 @@
 ---
 
-- hosts: all
+- hosts: myhost
   gather_facts: no
-  tasks:
-    - name: install python 2
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
   become: yes
+  tasks:
+    - name: ping host
+      ping:
+    - name: install python 3
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+      register: result
+    - name: result post adduser
+      debug: msg="{{ result }}"
 
 
-- hosts: all
+- hosts: myhost
   roles:
+    - base-provision
+    #- install_packages_and_docker
     - adduser
   become: yes

@@ -1,14 +1,14 @@
 ---
 
-- hosts: servers
+- hosts: myhost 
   gather_facts: yes
   tasks:
-    - name: install python 2
+    - name: install python 3
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
   become: yes
 
 
-- hosts: servers
+- hosts: myhost
   roles:
     - base-provision
   become: yes
