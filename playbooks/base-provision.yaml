@@ -8,7 +8,7 @@
   become: yes
 
 
-- hosts: myhost
+- hosts: all
   roles:
     - base-provision
   become: yes
