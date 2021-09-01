@@ -1,5 +1,7 @@
 ---
 # handlers file for installnginx
 
-- name: restart nginx
+- name: restart_nginx
   service: name=nginx state=restarted
+
+

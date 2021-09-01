@@ -2,5 +2,6 @@
 # vars file for installnginx
 key_file: /etc/nginx/ssl/nginx.key
 cert_file: /etc/nginx/ssl/nginx.crt
-conf_file: /etc/nginx/sites-available/default
+conf_file_debian: /etc/nginx/sites-available/default
 server_name: localhost
+conf_file_centos: /etc/nginx/nginx.conf

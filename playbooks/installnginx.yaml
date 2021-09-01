@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: myhost
   roles:
     - installnginx
   become: yes

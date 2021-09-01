@@ -1,32 +1,69 @@
 ---
 # tasks file for installnginx
-- name: Install nginx
-  apt: name=nginx update_cache=yes cache_valid_time=3600
+- block: # ============Block for Debian==================#
 
-- name: create cert dir
-  file: path=/etc/nginx/ssl state=directory
+  - name: Install nginx
+    apt: name=nginx update_cache=yes cache_valid_time=3600
 
-- name: copy TLS key
-  copy: src=files/nginx.key dest={{ key_file }} owner=root mode=0600
-  notify: restart nginx
+  - name: create cert dir
+    file: path=/etc/nginx/ssl state=directory
+
+  - name: copy TLS key
+    copy: src=files/nginx.key dest={{ key_file }} owner=root mode=0600
+    notify: restart_nginx
   
-- name: copy TLS cert
-  copy: src=files/nginx.crt dest={{ cert_file }} 
-  notify: restart nginx
+  - name: copy TLS cert
+    copy: src=files/nginx.crt dest={{ cert_file }} 
+    notify: restart_nginx
 
-- name: copy nginx config file
-  template: src=templates/nginx.conf.j2 dest={{ conf_file }}
+  - name: copy nginx config file
+    template: src=templates/nginx.conf.j2 dest={{ conf_file_debian }}
 
-- name: enable configuration
-  file: >
-    dest=/etc/nginx/sites-enabled/default
-    src={{ conf_file }}
-    state=link
+  - name: enable configuration
+    file: >
+      dest=/etc/nginx/sites-enabled/default
+      src={{ conf_file_debian }}
+      state=link
 
-- name: copy index.html
-  template: src=templates/index.html.j2 dest=/var/www/html/index.html
-    mode=0644
+  - name: copy index.html
+    template: src=templates/index.html.j2 dest=/var/www/html/index.html
+      mode=0644
 
-- name: restart nginx
-  service: name=nginx state=restarted
+  - name: restart nginx
+    service: name=nginx state=restarted
+
+
+  when: ansible_os_family == "Debian"
+
+
+
+
+- block: #==========Block for Red Hat============#
+
+  - name: Install nginx
+    yum: name=nginx state=latest
+
+  - name: create cert dir
+    file: path=/etc/nginx/ssl state=directory
+
+  - name: copy TLS key
+    copy: src=files/nginx.key dest={{ key_file }} owner=root mode=0600
+    notify: restart_nginx
+  
+  - name: copy TLS cert
+    copy: src=files/nginx.crt dest={{ cert_file }} 
+    notify: restart_nginx
+
+  - name: copy nginx config file
+    template: src=templates/nginx.conf.centos.j2 dest={{ conf_file_centos }}
+
+  - name: copy index.html
+    template: src=templates/index.html.j2 dest=/var/www/html/index.html
+      mode=0644
+
+  - name: restart nginx
+    service: name=nginx state=restarted
+
+
+  when: ansible_os_family == "RedHat"
 
